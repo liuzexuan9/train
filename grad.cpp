@@ -10,6 +10,16 @@
 #include <vector>
 
 using namespace std;
+double multi(vector<double> &a,vector<double> &b)
+{
+    int n=a.size();
+    double sum=0;
+    for(int i=0;i<n;i++)
+    {
+        sum+=a[i]*b[i];
+    }
+    return sum;
+}
 vector<double> grad(vector<vector<double>>&x,vector<double>&y,double lr,int epoch=100)
 {
     int n=x.size();

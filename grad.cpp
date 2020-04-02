@@ -8,7 +8,7 @@
 
 #include <iostream>
 #include <vector>
-
+#include <math.h>
 using namespace std;
 double multi(vector<double> &a,vector<double> &b)
 {
@@ -108,7 +108,7 @@ vector<double> adagrad(vector<vector<double>>&x,vector<double>&y,double lr,int e
         rmsofgrad2+=multi(gw,gw);
         for(int j=0;j<m;j++)
         {
-            w[j]-=lr/rmsofgrad2*gw[j];
+            w[j]-=lr/sqrt(rmsofgrad2)*gw[j];
         }
     }
     vector<double>ans(m+1);

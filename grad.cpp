@@ -120,6 +120,8 @@ vector<double> adagrad(vector<vector<double>>&x,vector<double>&y,double lr,int e
     return ans;
 }
 
+
+
 int main(int argc, const char * argv[]) {
     // insert code here...
     std::cout << "Hello, World!\n";

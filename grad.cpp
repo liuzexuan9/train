@@ -84,6 +84,42 @@ vector<vector<double>> addhalt(vector<vector<double>> &x)
     }
     return x_;
 }
+vector<double> adagrad(vector<vector<double>>&x,vector<double>&y,double lr,int epoch=100)
+{
+    int n=x.size();
+    int m=x[0].size();
+    double sum=0.0,sumb=0;
+    vector<double> w(m,0);
+    vector<double> gw(m);
+    double rmsofgrad2=0;
+    while(epoch--)
+    {
+        for(int j=0;j<m;j++)
+        
+        {
+            sum=0;
+            for(int i=0;i<n;i++)
+            {
+                sum+=(2*(x[i][j]*w[j]-y[i])*x[i][j]);
+            }
+            gw[j]=sum/n;
+        }
+        //参数更新
+        rmsofgrad2+=multi(gw,gw);
+        for(int j=0;j<m;j++)
+        {
+            w[j]-=lr/rmsofgrad2*gw[j];
+        }
+    }
+    vector<double>ans(m+1);
+    for(int i=0;i<m;i++)
+    {
+        ans[i]=w[i];
+        
+    }
+    return ans;
+}
+
 int main(int argc, const char * argv[]) {
     // insert code here...
     std::cout << "Hello, World!\n";

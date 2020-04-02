@@ -55,6 +55,25 @@ vector<double> grad(vector<vector<double>>&x,vector<double>&y,double lr,int epoc
     return ans;
     
 }
+vector<vector<double>> addhalt(vector<vector<double>> &x)
+{
+    int n=x.size();
+    int m=x[0].size();
+    vector<vector<double>>x_(n,vector<double>(m+1));
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            x_[i][j]=x[i][j];
+        }
+
+    }
+    for(int i=0;i<n;i++)
+    {
+        x_[i][m]=1.0;
+    }
+    return x_;
+}
 int main(int argc, const char * argv[]) {
     // insert code here...
     std::cout << "Hello, World!\n";

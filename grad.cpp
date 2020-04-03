@@ -9,6 +9,7 @@
 #include <iostream>
 #include <vector>
 #include <math.h>
+#include <random>
 using namespace std;
 double multi(vector<double> &a,vector<double> &b)
 {
@@ -129,6 +130,8 @@ vector<double> sgd(vector<vector<double>>&x,vector<double>&y,double lr,int batch
     int batchs=(n+batch_size-1)/batch_size;
     while(epoch--)
     {
+        unsigned seed = std::chrono::system_clock::now ().time_since_epoch ().count ();
+        std::shuffle (x.begin (), x.end (), std::default_random_engine (seed));
         for(int batch=0;batch<batchs;batch++)
         {
             int left=batch*batch_size;

@@ -119,7 +119,41 @@ vector<double> adagrad(vector<vector<double>>&x,vector<double>&y,double lr,int e
     }
     return ans;
 }
-
+vector<double> sgd(vector<vector<double>>&x,vector<double>&y,double lr,int batch_size,int epoch=100)
+{
+    int n=x.size();
+    int m=x[0].size();
+    double sum=0.0,sumb=0;
+    vector<double> w(m,0);
+    vector<double> gw(m);
+    int batchs=(n+batch_size-1)/batch_size;
+    while(epoch--)
+    {
+        for(int batch=0;batch<batchs;batch++)
+        {
+            int left=batch*batch_size;
+            int right=min((batch+1)*batch_size,n);
+        for(int j=0;j<m;j++)
+            
+        {
+            sum=0;
+            for(int i=left;i<right;i++)
+            {
+                sum+=(2*(x[i][j]*w[j]-y[i])*x[i][j]);
+            }
+            gw[j]=sum/n;
+        }
+        //参数更新
+       
+        for(int j=0;j<m;j++)
+        {
+            w[j]-=lr*gw[j];
+        }
+        }
+    }
+    
+    return w;
+}
 
 
 int main(int argc, const char * argv[]) {

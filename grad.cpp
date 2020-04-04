@@ -168,7 +168,16 @@ double cal_error(vector<double>&y,vector<double> &y_hat)
     }
     return sum/n;
 }
-
+double f(vector<double>&x,vector<double>&w)
+{
+    int n=x.size();
+    double sum=0;
+    for(int i=0;i<n;i++)
+    {
+        sum+=(x[i]*w[i]);
+    }
+    return sum;
+}
 int main(int argc, const char * argv[]) {
     // insert code here...
     std::cout << "Hello, World!\n";

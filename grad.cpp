@@ -144,7 +144,7 @@ vector<double> sgd(vector<vector<double>>&x,vector<double>&y,double lr,int batch
             {
                 sum+=(2*(x[i][j]*w[j]-y[i])*x[i][j]);
             }
-            gw[j]=sum/n;
+            gw[j]=sum/(right-left);
         }
         //参数更新
        

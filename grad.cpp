@@ -178,6 +178,65 @@ double f(vector<double>&x,vector<double>&w)
     }
     return sum;
 }
+vector<double> adam(vector<vector<double>> &x,vector<double>&y,double lr,int batch_size,int epoch=100 )
+{
+    double alpha = 0.01;  // 学习率
+    double momentum = 0.1;  // 冲量
+    double threshold = 0.0001;  //停止迭代的错误阈值
+    int epochs = 3000;  //迭代次数
+    double error = 0; //初始错误为0
+    int n=x.size();
+    int m=x[0].size();
+    vector<double> w(m+1,0);//参数
+    int batchs=(n+batch_size-1)/batch_size;
+    double sum=0;
+    vector<double> y_(n);
+    vector<double> g(m);
+    double p1=0.9,p2=0.999;//钜估计的指数衰减速率，按论文的建议为0.9，0.999
+    double p1t=p1,p2t=p2;
+    vector<double> s(m,0),r(m,0);//一阶和二阶矩变量
+    double stepsize=0.001;//步长，按建议为0.001
+    for(int t=1;t<=epochs;t++)
+    {
+        for(int i=0;i<n;i++)
+        {
+            y_[i]=f(x[i],w);
+        }
+        error=cal_error(y,y_);
+        if(error<threshold) break;
+        unsigned seed = std::chrono::system_clock::now ().time_since_epoch ().count ();
+        std::shuffle (x.begin (), x.end (), std::default_random_engine (seed));
+        
+        for(int batch=0;batch<batchs;batch++)
+        {
+            int left=batch*batch_size;
+            int right=min((batch+1)*batch_size,n);
+            for(int j=0;j<m;j++)
+                
+            {
+                sum=0;
+                for(int i=left;i<right;i++)
+                {
+                    sum+=(2*(x[i][j]*w[j]-y[i])*x[i][j]);
+                }
+                g[j]=sum/(right-left);
+            }
+            //参数更新
+            for(int j=0;j<m;j++)
+            {
+                s[j]=(p1*s[j]+(1-p1)*g[j])/(1-p1t);
+                r[j]=(p2*r[j]+(1-p2)*g[j]*g[j])/(1-p2t);
+                w[j]-=stepsize*(s[j]/(sqrt(r[j])+10e-8));
+            }
+            p1t*=p1;
+            p2t*=p2;
+            
+            
+        }
+    }
+    return w;
+}
+
 int main(int argc, const char * argv[]) {
     // insert code here...
     std::cout << "Hello, World!\n";

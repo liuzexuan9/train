@@ -157,7 +157,17 @@ vector<double> sgd(vector<vector<double>>&x,vector<double>&y,double lr,int batch
     
     return w;
 }
-
+double cal_error(vector<double>&y,vector<double> &y_hat)
+{
+    int n=y.size();
+    double sum=0;
+    
+    for(int i=0;i<n;i++)
+    {
+        sum+=(y[i]-y_hat[i])*(y[i]-y_hat[i]);
+    }
+    return sum/n;
+}
 
 int main(int argc, const char * argv[]) {
     // insert code here...

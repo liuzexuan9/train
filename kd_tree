@@ -29,11 +29,11 @@ class kd_tree
 private:
     int dim;
     vector<vector<double>> x;
-    double get_mid_value(vector<double> &data,int left,int right)
+      double get_mid_value(vector<double> &data,int left,int right,int target)
     {
         int n=data.size();
         int i=left,j=right;
-        int target=left+(right-left)/2;
+       // int target=left+(right-left)/2;
         int temp=data[left];
         while(left<right)
         {
@@ -45,8 +45,8 @@ private:
         }
         data[left]=temp;
         if(left==target) return data[left];
-        else if(left<target) return get_mid_value(data, left+1,j );
-        else return get_mid_value(data, i, left-1);
+        else if(left<target) return get_mid_value(data, left+1,j,target );
+        else return get_mid_value(data, i, left-1,target);
     }
 public:
     kd_tree(vector<vector<double>>&data)

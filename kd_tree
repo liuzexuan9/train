@@ -74,7 +74,7 @@ public:
         
         for(int i=0;i<n;i++)
         {
-            if(i==mid) continue;
+           //if(i==mid) continue;
             if(x[seq[i]][d]<=mid_value) left.push_back(i);
             else right.push_back(i);
         }
@@ -86,7 +86,61 @@ public:
     }
 
     
-    
+    vector<double>  search_nearest(Tree *root,vector<double>target)
+    {
+        vector<double> nearest_point=x[0];
+        double d=dis(target,x[0]);
+        stack<Tree *>st;
+        Tree *node=root;
+        st.push(node);
+        while(node)
+        {
+           
+            if(node->div<=target[node->dim])
+            {
+                st.push(node);
+                node=node->left;
+            }
+            else
+            {
+                st.push(node);
+                node=node->right;
+            }
+        }
+        nearest_point=x[(st.top())->loc];
+        st.pop();
+        d=dis(nearest_point,target);
+        
+        //下面是回溯搜索路径
+        while(!st.empty())
+        {
+            node=st.top();
+            st.pop();
+            int t=dis(x[node->loc],target);
+            if(t>=d) break;
+            //如果node现在指向的是叶子结点，则观察是否需要更新
+            if(node->left==NULL&&node->right==NULL)
+            {
+                    d=t;
+                    nearest_point=x[node->loc];
+            }
+            else{
+                //现在观察target为中心，半径为d的超球面是否与分割超平面相交
+                if(x[node->loc][node->dim]>target[node->dim])//可能在右搜索空间有更好的解，网右搜索
+                {
+                    node=node->right;
+                }
+                else node=node->left;
+                if(node)
+                    st.push(node);
+                
+            }
+            
+        }
+        
+        return nearest_point;
+        
+    }
 };
 int main(int argc, const char * argv[]) {
     // insert code here...

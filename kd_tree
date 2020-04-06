@@ -56,7 +56,7 @@ public:
         dim=m;
         x=data;
     }
-    Tree * built_by_dim(vector<int>&seq,int d)
+        Tree * built_by_dim(vector<int>&seq,int d)
     {
         Tree *tree=new Tree();
         tree->dim=d%dim;
@@ -68,17 +68,23 @@ public:
             temp[i]=x[seq[i]][d];
         }
         //得出中值
-        double mid_value=get_mid_value(temp,0, n-1);
+        int mid=seq.size()/2;
+        int mid_value=get_mid_value(temp,0, n-1,mid);
+        
+        
         for(int i=0;i<n;i++)
         {
+            if(i==mid) continue;
             if(x[seq[i]][d]<=mid_value) left.push_back(i);
             else right.push_back(i);
         }
         tree->div=mid_value;
+        tree->loc=mid;
         tree->left=built_by_dim(left,d+1);
         tree->right=built_by_dim(right,d+1);
         return tree;
     }
+
     
     
 };

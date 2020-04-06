@@ -1,0 +1,89 @@
+//
+//  main.cpp
+//  knn
+//
+//  Created by 刘泽轩 on 2020/4/6.
+//  Copyright © 2020 刘泽轩. All rights reserved.
+//
+
+#include <iostream>
+
+#include <iostream>
+#include <vector>
+#include <math.h>
+#include <random>
+#include <queue>
+#include <map>
+using namespace std;
+typedef struct tree{
+    int dim;
+    double div;
+    struct tree *left;
+    struct tree *right;
+    
+    
+}Tree;
+
+class kd_tree
+{
+private:
+    int dim;
+    vector<vector<double>> x;
+    double get_mid_value(vector<double> &data,int left,int right)
+    {
+        int n=data.size();
+        int i=left,j=right;
+        int target=left+(right-left)/2;
+        int temp=data[left];
+        while(left<right)
+        {
+            while(left<right&data[right]>=temp) right--;
+            if(left<right) data[left]=data[right];
+            while(left<right&&data[left]<temp) left++;
+            if(left<right) data[right]=data[left];
+            
+        }
+        data[left]=temp;
+        if(left==target) return data[left];
+        else if(left<target) return get_mid_value(data, left+1,j );
+        else return get_mid_value(data, i, left-1);
+    }
+public:
+    kd_tree(vector<vector<double>>&data)
+    {
+        int n=data.size();
+        int m=data[0].size();
+        dim=m;
+        x=data;
+    }
+    Tree * built_by_dim(vector<int>&seq,int d)
+    {
+        Tree *tree=new Tree();
+        tree->dim=d%dim;
+        vector<int> left,right;
+        int n=seq.size();
+        vector<double> temp(n);
+        for(int i=0;i<n;i++)
+        {
+            temp[i]=x[seq[i]][d];
+        }
+        //得出中值
+        double mid_value=get_mid_value(temp,0, n-1);
+        for(int i=0;i<n;i++)
+        {
+            if(x[seq[i]][d]<=mid_value) left.push_back(i);
+            else right.push_back(i);
+        }
+        tree->div=mid_value;
+        tree->left=built_by_dim(left,d+1);
+        tree->right=built_by_dim(right,d+1);
+        return tree;
+    }
+    
+    
+};
+int main(int argc, const char * argv[]) {
+    // insert code here...
+    std::cout << "Hello, World!\n";
+    return 0;
+}

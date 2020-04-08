@@ -18,17 +18,19 @@ private:
     //vector<int>y;
     map<int,int> py;
     vector< map<pair<double,int>,int>> px_y;
-    vector<int> y;
+    set<int> y_set;
     int N,M;
 public:
-    NB(vector<vector<double> >&x,vector<int> &y0){
+    NB(vector<vector<double> >&x,vector<int> &y){
         //x=x0;
-        y=y0;
+        //y=y0;
+        
         N=x.size();
         map<int,int>mpy;
         for(int i=0;i<N;i++)
         {
             py[y[i]]++;
+            y_set.insert(y[i]);
             
         }
         int M=x[0].size();
@@ -75,15 +77,17 @@ public:
     //根据输入的特征向量预测
     int predict(vector<double>&x)
     {
-        double p=post(y[0],x);
-        int ans=y[0];
-        for(int i=1;i<M;i++)
+        
+        
+        double p=-1;
+        int ans;
+        for(int y:y_set)
         {
-            double t=post(y[i],x);
+            double t=post(y,x);
             if(t>p)
             {
                 p=t;
-                ans=y[i];
+                ans=y;
             }
         }
         return ans;

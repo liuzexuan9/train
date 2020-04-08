@@ -102,6 +102,10 @@ public:
     {
         return predict(x);
     }
+    void  set_laplace(int k)
+    {
+        laplace=k;
+    }
 };
 
 int main(int argc, const char * argv[]) {

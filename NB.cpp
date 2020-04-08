@@ -19,13 +19,16 @@ private:
     map<int,int> py;
     vector< map<pair<double,int>,int>> px_y;
     set<int> y_set;
+    vector<set<int>>x_set;
     int N,M;
+    int laplace;
 public:
-    NB(vector<vector<double> >&x,vector<int> &y){
+    NB(vector<vector<double> >&x,vector<int> &y,int lap=0){
         //x=x0;
         //y=y0;
-        
+        laplace=lap;
         N=x.size();
+        x_set.resize(M);
         map<int,int>mpy;
         for(int i=0;i<N;i++)
         {
@@ -42,6 +45,7 @@ public:
             {
                 t.first=x[i][j];
                 t.second=y[i];
+                x_set[j].insert(x[i][j]);
                 px_y[j][t]++;
             }
         }
@@ -51,7 +55,8 @@ public:
     //计算先验概率
     double prior(int y)
     {
-        return double(py[y])/N;
+       // return double(py[y])/N;
+        return double(py[y]+laplace)/(N+laplace*y_set.size());
     }
     //计算条件概率
     double condition(vector<double>&x,int y)
@@ -63,7 +68,8 @@ public:
         for(int i=0;i<m;i++)
         {
             t.first=x[i];
-            ans*=double(px_y[i][t])/py[y];
+            //ans*=double(px_y[i][t])/py[y];
+            ans*=double(px_y[i][t]+laplace)/(py[y]+laplace*x_set[i].size());
         }
         return ans;
     }

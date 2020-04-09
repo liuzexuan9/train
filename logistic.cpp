@@ -13,7 +13,7 @@ double sigmoid(double z)
     return 1.0/(1+exp(-z));
 }
     //计算内积
-    double scaleProduct(vector<double>&x,vector<double>&y)
+    double scalarProduct(vector<double>&x,vector<double>&y)
     {
         double sum=0;
         int n=x.size();
@@ -25,7 +25,7 @@ double sigmoid(double z)
     }
     double p(vector<double>&x,vector<double>&w)
     {
-        return sigmoid(scaleProduct(x,w));
+        return sigmoid(scalarProduct(x,w));
     }
     //梯度上升法求极大值
 public:

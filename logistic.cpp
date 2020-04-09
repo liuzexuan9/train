@@ -62,6 +62,14 @@ public:
         }
         return w;
     }
+    int classify(vector<double> &x, vector<double> &w)
+    {
+        //对数几率是线性模型。
+        if (scalarProduct(x, w) > 0.5)
+            return 1;
+        else
+            return 0;
+    }
 };
 int main(int argc, const char * argv[]) {
     // insert code here...

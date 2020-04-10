@@ -70,6 +70,16 @@ public:
         else
             return 0;
     }
+        double acc(vector<int> &y,vector<int>&y_)
+    {
+        int n=y.size();
+        int sum=0;
+        for(int i=0;i<n;i++)
+        {
+            sum+=(y==y_?1:0);
+        }
+        return double(sum)/n;
+    }
 };
 int main(int argc, const char * argv[]) {
     // insert code here...

@@ -70,6 +70,18 @@ public:
     {
         return H(y)-condition_entropy(x,y);
     }
+       vector<vector<double>> T(vector<vector<double>>&x)
+    {
+        int n=x.size();
+        int m=x[0].size();
+        vector<vector<double>> b(m,vector<double>(n));
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+                b[j][i]=a[i][j];
+        }
+        return b;
+    }
 };
 int main(int argc, const char * argv[]) {
     // insert code here...

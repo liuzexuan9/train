@@ -15,6 +15,17 @@ using namespace  std;
 class decision_tree
 {
 private:
+        //数据集
+    vector<string> attribute_name;
+    vector<vector<string>> x;
+    vector<string> y;
+   typedef struct tree{
+        string attribute;
+       string type;
+       vector<string > value;
+        vector< struct tree *> next;
+        
+    }Tree ;
 public:
     //数据集的经验熵
     double H(vector<string> &y)

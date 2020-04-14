@@ -93,6 +93,43 @@ public:
         }
         return b;
     }
+        Tree * create(vector<int> attributelist)
+    {
+        double maxentropy=0;
+        int maxi=-1;
+        int n=attributelist.size();
+        if(n==0) return NULL;
+        for(int i:attributelist)
+        {
+            double entropy=g(y,x[i]);
+            if(maxentropy<entropy)
+            {
+                maxentropy=entropy;
+                maxi=i;
+            }
+        }
+        //if(maxi==-1) return NULL;
+        Tree *node=new Tree;
+        if(maxi==-1)
+        {
+            node->type=y[attributelist[0]];
+            return node;
+        }
+        map<string,vector<int>> mp;
+        for(int i=0;i<n;i++)
+        {
+            mp[x[i][attributelist[maxi]]].push_back(i);
+        }
+        for(map<string,vector<int>>::iterator it=mp.begin();it!=mp.end();it++)
+        {
+            node->value.push_back(it->first);
+            Tree *t=create(it->second);
+            node->next.push_back(t);
+            
+        }
+        return node;
+    }
+    
 };
 int main(int argc, const char * argv[]) {
     // insert code here...

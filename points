@@ -1,0 +1,94 @@
+//
+//  main.cpp
+//  point_cloud
+//
+//  Created by 刘泽轩 on 2020/4/30.
+//  Copyright © 2020 刘泽轩. All rights reserved.
+//
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <map>
+#include <stdio.h>
+#include <stdlib.h>
+using namespace std;
+vector<double> find_max_rect(vector<vector<double>> &data )
+{
+    const int direction=3;
+    vector<double> max_rect=data[0];
+    vector< double> min_rect=data[0];
+    for(vector<double> x:data)
+    {
+        for(int i=0;i<direction;i++)
+        
+        {
+            max_rect[i]=max(max_rect[i],x[i]);
+            min_rect[i]=min(min_rect[i],x[i]);
+        }
+    }
+    vector<double> ans(direction);
+    for(int i=0;i<direction;i++)
+        ans[i]=max_rect[i]-min_rect[i];
+    return ans;
+}
+map<int,vector<vector<double>> >get_rect(vector<vector<double>> &datas,vector<double> max_rect,
+                                        vector<double> rect_size)
+{
+    map<int,vector<vector<double>> > ans;
+    int size[3];
+    for(int i=0;i<3;i++)
+    {
+        size[i]=(int)(max_rect[i]/rect_size[i])+1;
+    }
+    int num=0;
+    for(vector<double> data:datas)
+    {
+        num=(int)(data[0]/rect_size[0])*size[1]*size[2]+(int)(data[1]/rect_size[1])*size[2]+
+        (int)(data[2]/rect_size[2]);
+        ans[num].push_back(data);
+    }
+    
+    
+    return ans;
+}
+bool write_points_file(char *filename,vector<vector<double>> &data)
+{
+    FILE *fp=fopen(filename,"w");
+    for(vector<double> x:data )
+    {
+        //fprintf(fp,"%f,%f,%f\n",x[0],x[1],x[2]);
+        for(double y:x)
+        {
+            fprintf(fp,"%f,",y);
+        }
+        fprintf(fp,"\n");
+    }
+    return true;
+}
+
+vector<vector<double>> read_points_file(char *filename,const int each_len=3)
+{
+    FILE *fp=fopen(filename,"r");
+    vector<vector<double>> ans;
+    vector<double> t(each_len);
+    while(!feof(fp))
+    {
+        
+        
+        for(int i=0;i<each_len;i++)
+        {
+            fscanf(fp,"%f",&t[i]);
+        }
+        ans.push_back(t);
+        
+    }
+    return ans;
+}
+
+
+int main(int argc, const char * argv[]) {
+    // insert code here...
+   
+    return 0;
+}

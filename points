@@ -10,6 +10,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <queue>
 #include <stdio.h>
 #include <stdlib.h>
 using namespace std;
@@ -85,7 +86,96 @@ vector<vector<double>> read_points_file(char *filename,const int each_len=3)
     }
     return ans;
 }
-
+class points
+{
+private:
+     int max_size=1024,dim=3;
+    vector<vector<double>> p;//(max_size,vector<double>(dim));
+    int len=0;
+public:
+    points(int size=1024,int dim=3)
+    {
+        p.resize(size);
+        max_size=size;
+        this->dim=dim;
+    }
+    void clear()
+    {
+        len=0;
+    }
+    bool write(vector<vector<double>> &data)
+    {
+        int n=data.size();
+        if(n>=max_size) return false;
+        
+        for(int i=0;i<n;i++)
+        {
+            p[i]=data[i];
+            len++;
+        }
+        return true;
+    }
+    bool write(vector<vector<double>> &data,int left,int right)
+    {
+       
+        
+        for(int i=left,j=0;i<right;i++,j++)
+        {
+            p[j]=data[i];
+            len++;
+        }
+        return true;
+    }
+    
+    
+    
+};
+class memory
+{
+private:
+    vector<points *> data;
+    int mem_size;
+    int size;
+    queue<int> ack;
+public:
+    memory(int size=1024,int mem_size=1024)
+    {
+        this->mem_size=mem_size;
+        for(int i=0;i<mem_size;i++)
+            ack.push(i);
+        this->size=size;
+        for(int i=0;i<size;i++)
+        {
+            points *x=new points(size);
+            data.push_back(x);
+        }
+    }
+    points * get_data(int x)
+    {
+        if(x<0||x>=size) return NULL;
+        return data[x];
+    }
+    vector<int> write_data(vector<vector<double>> &d)
+    {
+        int n=d.size();
+        int m=(n+size-1)/size;
+        vector<int> seq;
+        if(ack.size()<m) return seq;
+        for(int i=0;i<m;i++)
+        {
+            int loc=ack.front();
+            seq.push_back(loc);
+            ack.pop();
+            points *p=data[i];
+            p->write(d,i*size,(i+1)*size);
+            
+        }
+        
+        return seq;
+        
+        
+    }
+};
 
 int main(int argc, const char * argv[]) {
     // insert code here...

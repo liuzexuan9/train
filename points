@@ -179,7 +179,7 @@ public:
     {
         for(int x:seq)
         {
-            data[x]->release();
+            data[x]->clear();
             ack.push(x);
         }
     }

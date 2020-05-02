@@ -175,6 +175,15 @@ public:
         
         
     }
+     void realease(vector<int> &seq)
+    {
+        for(int x:seq)
+        {
+            data[x]->release();
+            ack.push(x);
+        }
+    }
+    
 };
 
 int main(int argc, const char * argv[]) {

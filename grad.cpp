@@ -236,7 +236,17 @@ vector<double> adam(vector<vector<double>> &x,vector<double>&y,double lr,int bat
     }
     return w;
 }
-
+vector<vector<int>> confusion_matrix(vector<int> &a,vector<int> &b,vector<int >&type)
+{
+    int n=type.size();
+    vector<vector<int>> cnt(n,vector<int>(n,0));
+    int m=a.size();
+    for(int i=0;i<m;i++)
+    {
+        cnt[a[i]][b[i]]++;
+    }
+    return cnt;
+}
 int main(int argc, const char * argv[]) {
     // insert code here...
     std::cout << "Hello, World!\n";

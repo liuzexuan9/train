@@ -195,7 +195,7 @@ vector<vector<int>> get_next_2d(int x,int y,int n,int m)
     {
         int tx=x+dx[i];
         int ty=y+dy[i];
-        if(tx<0||ty<0||yx>=n||ty>=m)
+        if(tx<0||ty<0||tx>=n||ty>=m)
             continue;
         t[0]=tx;
         t[1]=ty;

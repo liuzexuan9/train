@@ -258,6 +258,12 @@ vector<vector<int>> get_next_3d(int x,int y,int z,int n,int m,int l)
     
     return ans;
 }
+int xyz_to_loc(vector<int> xyz,vector<int> size)
+{
+    int loc=0;
+    loc=xyz[0]*size[1]*size[2]+xyz[1]*size[2]+xyz[2];
+    return loc;
+}
 int main(int argc, const char * argv[]) {
     // insert code here...
    

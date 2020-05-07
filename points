@@ -264,6 +264,38 @@ int xyz_to_loc(vector<int> xyz,vector<int> size)
     loc=xyz[0]*size[1]*size[2]+xyz[1]*size[2]+xyz[2];
     return loc;
 }
+double get_distance(vector<double> &x,vector<double> &y)
+{
+    int n=x.size();
+    double dis=0;
+    double t;
+    for(int i=0;i<n;i++)
+    {
+        t=x[i]-y[i];
+        dis+=t*t;
+    }
+    return dis;
+}
+vector<double> find_neighbour(vector<vector<double>> &data,vector<double> x)
+{
+    vector<double> ans;
+    int n=data.size();
+    if(n==0) return ans;
+    int m=x.size();
+    
+    double mindis=get_distance(data[0],x);
+    ans=data[0];
+    for(vector<double> y:data)
+    {
+        double dis=get_distance(y,x);
+        if(dis<mindis)
+        {
+            mindis=dis;
+            ans=y;
+        }
+    }
+    return ans;
+}
 int main(int argc, const char * argv[]) {
     // insert code here...
    

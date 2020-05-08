@@ -127,7 +127,10 @@ public:
         return true;
     }
     
-    
+     vector<vector<double>> get_data()
+    {
+        return p;
+    }
     
 };
 class memory

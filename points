@@ -13,6 +13,9 @@
 #include <queue>
 #include <stdio.h>
 #include <stdlib.h>
+#include <thread>
+#include <future>
+
 using namespace std;
 vector<double> find_max_rect(vector<vector<double>> &data )
 {
@@ -298,6 +301,13 @@ vector<double> find_neighbour(vector<vector<double>> &data,vector<double> x)
         }
     }
     return ans;
+}
+vector<double> find_neighbour_thread(vector<vector<double>> &data,vector<double> x)
+{
+    
+    future<vector<double>> ans;
+    ans=async(find_neighbour,data,x);
+    return ans.get();
 }
 int main(int argc, const char * argv[]) {
     // insert code here...

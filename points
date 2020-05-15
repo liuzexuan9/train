@@ -309,6 +309,64 @@ vector<double> find_neighbour_thread(vector<vector<double>> &data,vector<double>
     ans=async(find_neighbour,data,x);
     return ans.get();
 }
+queue<int> q;
+mutex mu;
+void read()
+{
+    int x=0;
+   while(x<9)
+   {
+       
+   
+    while(q.empty());
+    {
+         mu.lock();
+        x=q.front();
+        printf("read %d\n",x);
+       
+        q.pop();
+         mu.unlock();
+        
+    }
+   }
+    //read();
+   
+   
+}
+int now=0;
+void write()
+{
+//    mu.lock();
+//    if(q.size()<10)
+//    {
+//        q.push(now);
+//        printf("write %d\n",now);
+//        now++;
+//    }
+//
+//    mu.unlock();
+//
+    for(int i=0;i<10;i++)
+    {
+        mu.lock();
+        printf("write %d\n",i);
+        q.push(i);
+        mu.unlock();
+        int t=1000;
+        while(t--);
+    }
+}
+void test_()
+{
+    
+    std::thread t1(read);
+    std::thread t2(write);
+    
+    t1.join();
+    t2.join();
+    
+    
+}
 int main(int argc, const char * argv[]) {
     // insert code here...
    
